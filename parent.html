@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Parent Registration</h1>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-step completed">Welcome</div>
+      <div class="progress-step completed">Kiddo</div>
+      <div class="progress-step active">Parent</div>
+      <div class="progress-step">Mother</div>
+      <div class="progress-step">Emergency</div>
+      <div class="progress-step">Policy</div>
+    </div>
+
+    <!-- Form -->
+    <form id="parent-form" action="mother.html" method="get" enctype="multipart/form-data">
+      
+      <!-- Tidak Berkenaan -->
+      <label class="checkbox-inline">
+        <input type="checkbox" id="parent-not-applicable">
+        Tidak Berkenaan
+      </label>
+
+      <div id="parent-fields">
+        <!-- 1. Full Name -->
+        <label for="parent-name">Full Name</label>
+        <input type="text" id="parent-name" name="parent-name" required>
+
+        <!-- 2. Age -->
+        <label for="parent-age">Age</label>
+        <input type="number" id="parent-age" name="parent-age" min="18" max="100" required>
+
+        <!-- 3. IC -->
+        <label for="parent-ic">IC Number</label>
+        <input type="text" id="parent-ic" name="parent-ic" required>
+
+        <!-- 4. Tel. No. -->
+        <label for="parent-tel">Tel. No.</label>
+        <input type="tel" id="parent-tel" name="parent-tel" required>
+
+        <!-- 5. Home Address -->
+        <label for="parent-address">Home Address</label>
+        <textarea id="parent-address" name="parent-address" rows="3" required></textarea>
+
+        <!-- 6. Occupation -->
+        <label for="parent-occupation">Occupation</label>
+        <input type="text" id="parent-occupation" name="parent-occupation" required>
+
+        <!-- 7. Salary -->
+        <label for="parent-salary">Salary</label>
+        <select id="parent-salary" name="parent-salary" required>
+          <option value="">Select Salary</option>
+          <option value="No Salary">No Salary</option>
+          <option value="1500-3000">1500 - 3000</option>
+          <option value="3000-6000">3000 - 6000</option>
+          <option value="Above 6000">Above 6000</option>
+        </select>
+
+        <!-- 8. Payslip Attach -->
+        <label for="parent-payslip">Payslip (Pic/PDF)</label>
+        <input type="file" id="parent-payslip" name="parent-payslip" accept=".jpg,.jpeg,.png,.pdf">
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <button type="button" class="btn" onclick="window.location.href='kiddo.html'">Back</button>
+        <button type="submit" class="btn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const parentNotApplicable = document.getElementById('parent-not-applicable');
+    const parentFields = document.getElementById('parent-fields');
+    const parentForm = document.getElementById('parent-form');
+    const parentAddress = document.getElementById('parent-address');
+
+    // Show/hide fields based on "Tidak Berkenaan" checkbox
+    parentNotApplicable.addEventListener('change', () => {
+      if (parentNotApplicable.checked) {
+        parentFields.style.display = 'none';
+        parentFields.querySelectorAll('input, textarea, select').forEach(el => el.removeAttribute('required'));
+      } else {
+        parentFields.style.display = 'block';
+        parentFields.querySelectorAll('input, textarea, select').forEach(el => el.setAttribute('required', ''));
+      }
+    });
+
+    // Pre-fill Home Address from Kiddo page
+    const kiddoStreet = localStorage.getItem('kiddoStreet');
+    const kiddoPostcode = localStorage.getItem('kiddoPostcode');
+    const kiddoState = localStorage.getItem('kiddoState');
+    if (kiddoStreet && kiddoPostcode && kiddoState) {
+      parentAddress.value = `${kiddoStreet}, ${kiddoPostcode}, ${kiddoState}`;
+    }
+
+    // Save parent data ke localStorage
+    parentForm.addEventListener('submit', () => {
+      if (parentNotApplicable.checked) {
+        localStorage.setItem("parentNotApplicable", "Yes");
+      } else {
+        localStorage.setItem("parentNotApplicable", "No");
+        localStorage.setItem("parentName", document.getElementById('parent-name').value);
+        localStorage.setItem("parentAge", document.getElementById('parent-age').value);
+        localStorage.setItem("parentIC", document.getElementById('parent-ic').value);
+        localStorage.setItem("parentTel", document.getElementById('parent-tel').value);
+        localStorage.setItem("parentAddress", parentAddress.value);
+        localStorage.setItem("parentOccupation", document.getElementById('parent-occupation').value);
+        localStorage.setItem("parentSalary", document.getElementById('parent-salary').value);
+
+        // Untuk file kita simpan nama file sahaja (Drive upload boleh buat nanti)
+        const payslipFile = document.getElementById('parent-payslip').files[0];
+        if (payslipFile) {
+          localStorage.setItem("parentPayslip", payslipFile.name);
+        } else {
+          localStorage.setItem("parentPayslip", "");
+        }
+      }
+    });
+  </script>
+</body>
+</html>

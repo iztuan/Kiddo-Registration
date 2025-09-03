@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Contact</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <h1>Emergency Contact</h1>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-step completed">Welcome</div>
+      <div class="progress-step completed">Kiddo</div>
+      <div class="progress-step completed">Parent</div>
+      <div class="progress-step completed">Mother</div>
+      <div class="progress-step active">Emergency</div>
+      <div class="progress-step">Policy</div>
+    </div>
+
+    <!-- Form -->
+    <form id="emergency-form" action="policy.html" method="get" enctype="multipart/form-data">
+
+      <!-- 1. Full Name -->
+      <label for="emergency-name">Full Name</label>
+      <input type="text" id="emergency-name" name="emergency-name" required>
+
+      <!-- 2. Tel. No. -->
+      <label for="emergency-tel">Tel. No.</label>
+      <input type="tel" id="emergency-tel" name="emergency-tel" required>
+
+      <!-- 3. Relationship -->
+      <label for="emergency-relationship">Relationship</label>
+      <input type="text" id="emergency-relationship" name="emergency-relationship" required>
+
+      <!-- 4. Passport Picture -->
+      <label for="emergency-passport">Passport Picture</label>
+      <input type="file" id="emergency-passport" name="emergency-passport" accept=".jpg,.jpeg,.png,.pdf" required>
+
+      <!-- 5. Home Address -->
+      <label for="emergency-address">Street / Area</label>
+      <textarea id="emergency-address" name="emergency-address" rows="2" placeholder="Street, Area" required></textarea>
+
+      <div class="address-inline">
+        <input type="text" id="emergency-postcode" name="emergency-postcode" placeholder="Postcode" required>
+        <input type="text" id="emergency-state" name="emergency-state" placeholder="State" required>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <button type="button" class="btn" onclick="window.location.href='mother.html'">Back</button>
+        <button type="submit" class="btn">Next</button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+    const emergencyForm = document.getElementById('emergency-form');
+
+    emergencyForm.addEventListener('submit', () => {
+      const name = document.getElementById('emergency-name').value;
+      const tel = document.getElementById('emergency-tel').value;
+      const relationship = document.getElementById('emergency-relationship').value;
+      const street = document.getElementById('emergency-address').value;
+      const postcode = document.getElementById('emergency-postcode').value;
+      const state = document.getElementById('emergency-state').value;
+
+      // Simpan ke localStorage
+      localStorage.setItem("emergencyName", name);
+      localStorage.setItem("emergencyTel", tel);
+      localStorage.setItem("emergencyRelationship", relationship);
+      localStorage.setItem("emergencyStreet", street);
+      localStorage.setItem("emergencyPostcode", postcode);
+      localStorage.setItem("emergencyState", state);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiddo Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <h1>Kiddo Registration</h1>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-step completed">Welcome</div>
+      <div class="progress-step active">Kiddo</div>
+      <div class="progress-step">Parent</div>
+      <div class="progress-step">Mother</div>
+      <div class="progress-step">Emergency</div>
+      <div class="progress-step">Policy</div>
+    </div>
+
+    <!-- Form -->
+    <form id="kiddo-form" action="parent.html" method="get">
+
+      <!-- 1. Full Name -->
+      <label for="full-name">Full Name</label>
+      <input type="text" id="full-name" name="full-name" required>
+
+      <!-- 2. MyKid -->
+      <label for="mykid">MyKid Number</label>
+      <input type="text" id="mykid" name="mykid" required>
+
+      <!-- 3. Age -->
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" min="0" max="18" required>
+
+      <!-- 4. Address -->
+      <label for="address">Street / Area</label>
+      <textarea id="address" name="address" rows="2" placeholder="Street, Area" required></textarea>
+
+      <div class="address-inline">
+        <input type="text" id="postcode" name="postcode" placeholder="Postcode" required>
+        <input type="text" id="state" name="state" placeholder="State" required>
+      </div>
+
+      <!-- 5. Allergy -->
+      <label class="checkbox-inline">
+        <input type="checkbox" id="allergy" name="allergy">
+        Has Allergy
+      </label>
+
+      <div class="allergy-reason" id="allergy-reason" style="display:none;">
+        <label for="allergy-detail">Please specify allergy</label>
+        <textarea id="allergy-detail" name="allergy-detail" rows="2" placeholder="Type allergy details here"></textarea>
+      </div>
+
+      <!-- 6. Immunization Record (optional) -->
+      <label for="immunization">Immunization Record (Pic/PDF)</label>
+      <input type="file" id="immunization" name="immunization" accept=".jpg,.jpeg,.png,.pdf">
+
+      <!-- 7. Email -->
+      <label for="email">Parent/Guardian Email</label>
+      <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <button type="button" class="btn" onclick="window.location.href='index.html'">Back</button>
+        <button type="submit" class="btn">Next</button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+    // Allergy toggle
+    const allergyCheckbox = document.getElementById('allergy');
+    const allergyReason = document.getElementById('allergy-reason');
+
+    allergyCheckbox.addEventListener('change', () => {
+      allergyReason.style.display = allergyCheckbox.checked ? 'block' : 'none';
+    });
+
+    // Save Kiddo data ke localStorage
+    const kiddoForm = document.getElementById('kiddo-form');
+    kiddoForm.addEventListener('submit', () => {
+      const fullName = document.getElementById('full-name').value;
+      const mykid = document.getElementById('mykid').value;
+      const age = document.getElementById('age').value;
+      const street = document.getElementById('address').value;
+      const postcode = document.getElementById('postcode').value;
+      const state = document.getElementById('state').value;
+      const email = document.getElementById('email').value;
+      const hasAllergy = document.getElementById('allergy').checked ? "Yes" : "No";
+      const allergyDetail = document.getElementById('allergy-detail').value;
+
+      // Simpan ke localStorage
+      localStorage.setItem("kiddoName", fullName);
+      localStorage.setItem("kiddoMyKid", mykid);
+      localStorage.setItem("kiddoAge", age);
+      localStorage.setItem("kiddoStreet", street);
+      localStorage.setItem("kiddoPostcode", postcode);
+      localStorage.setItem("kiddoState", state);
+      localStorage.setItem("parentEmail", email);
+      localStorage.setItem("kiddoHasAllergy", hasAllergy);
+      localStorage.setItem("kiddoAllergyDetail", allergyDetail);
+    });
+  </script>
+</body>
+</html>

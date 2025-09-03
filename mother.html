@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mother Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Mother Registration</h1>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-step completed">Welcome</div>
+      <div class="progress-step completed">Kiddo</div>
+      <div class="progress-step completed">Parent</div>
+      <div class="progress-step active">Mother</div>
+      <div class="progress-step">Emergency</div>
+      <div class="progress-step">Policy</div>
+    </div>
+
+    <!-- Form -->
+    <form id="mother-form" action="emercont.html" method="get" enctype="multipart/form-data">
+      
+      <!-- Tidak Berkenaan -->
+      <label class="checkbox-inline">
+        <input type="checkbox" id="not-applicable">
+        Tidak Berkenaan
+      </label>
+
+      <div id="mother-fields">
+        <!-- 1. Full Name -->
+        <label for="mother-name">Full Name</label>
+        <input type="text" id="mother-name" name="mother-name" required>
+
+        <!-- 2. Age -->
+        <label for="mother-age">Age</label>
+        <input type="number" id="mother-age" name="mother-age" min="18" max="100" required>
+
+        <!-- 3. IC -->
+        <label for="mother-ic">IC Number</label>
+        <input type="text" id="mother-ic" name="mother-ic" required>
+
+        <!-- 4. Tel. No. -->
+        <label for="mother-tel">Tel. No.</label>
+        <input type="tel" id="mother-tel" name="mother-tel" required>
+
+        <!-- 5. Home Address -->
+        <label for="mother-street">Street / Area</label>
+        <textarea id="mother-street" name="mother-street" rows="2" placeholder="Street, Area" required></textarea>
+
+        <div class="address-inline">
+          <input type="text" id="mother-postcode" name="mother-postcode" placeholder="Postcode" required>
+          <input type="text" id="mother-state" name="mother-state" placeholder="State" required>
+        </div>
+
+        <!-- 6. Occupation -->
+        <label for="mother-occupation">Occupation</label>
+        <input type="text" id="mother-occupation" name="mother-occupation" required>
+
+        <!-- 7. Salary -->
+        <label for="mother-salary">Salary</label>
+        <select id="mother-salary" name="mother-salary" required>
+          <option value="">Select Salary</option>
+          <option value="no_salary">No Salary</option>
+          <option value="1500-3000">1500 - 3000</option>
+          <option value="3000-6000">3000 - 6000</option>
+          <option value="above">Above 6000</option>
+        </select>
+
+        <!-- 8. Payslip Attach -->
+        <label for="mother-payslip">Payslip (Pic/PDF)</label>
+        <input type="file" id="mother-payslip" name="mother-payslip" accept=".jpg,.jpeg,.png,.pdf" required>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <button type="button" class="btn" onclick="window.location.href='parent.html'">Back</button>
+        <button type="submit" class="btn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const notApplicable = document.getElementById('not-applicable');
+    const motherFields = document.getElementById('mother-fields');
+    const form = document.getElementById('mother-form');
+
+    // Show/hide fields based on "Tidak Berkenaan" checkbox
+    notApplicable.addEventListener('change', () => {
+      if (notApplicable.checked) {
+        motherFields.style.display = 'none';
+        motherFields.querySelectorAll('input, textarea, select').forEach(el => el.removeAttribute('required'));
+      } else {
+        motherFields.style.display = 'block';
+        motherFields.querySelectorAll('input, textarea, select').forEach(el => el.setAttribute('required', ''));
+      }
+    });
+
+    // Pre-fill Home Address from Kiddo page
+    document.getElementById('mother-street').value = localStorage.getItem('kiddoStreet') || "";
+    document.getElementById('mother-postcode').value = localStorage.getItem('kiddoPostcode') || "";
+    document.getElementById('mother-state').value = localStorage.getItem('kiddoState') || "";
+
+    // Save mother data ke localStorage untuk next pages
+    form.addEventListener('submit', () => {
+      localStorage.setItem('motherStreet', document.getElementById('mother-street').value);
+      localStorage.setItem('motherPostcode', document.getElementById('mother-postcode').value);
+      localStorage.setItem('motherState', document.getElementById('mother-state').value);
+      localStorage.setItem('motherName', document.getElementById('mother-name').value);
+      localStorage.setItem('motherIC', document.getElementById('mother-ic').value);
+      localStorage.setItem('motherTel', document.getElementById('mother-tel').value);
+      localStorage.setItem('motherOccupation', document.getElementById('mother-occupation').value);
+      localStorage.setItem('motherSalary', document.getElementById('mother-salary').value);
+    });
+  </script>
+</body>
+</html>

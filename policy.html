@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agreement & Policy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <h1>Agreement & Policy</h1>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-step completed">Welcome</div>
+      <div class="progress-step completed">Kiddo</div>
+      <div class="progress-step completed">Parent</div>
+      <div class="progress-step completed">Mother</div>
+      <div class="progress-step completed">Emergency</div>
+      <div class="progress-step active">Policy</div>
+    </div>
+
+    <!-- Agreement Text -->
+    <div class="agreement-text" style="text-align:left; margin-bottom: 20px;">
+      <p>By registering my child at this childcare centre, I agree to the following terms:</p>
+      <ul>
+        <li>I will provide accurate and complete information about my child.</li>
+        <li>I understand the centre’s policies regarding health, safety, and conduct.</li>
+        <li>I will notify the centre immediately of any changes in emergency contacts or medical information.</li>
+        <li>I consent to the use of my child’s photos for centre-related activities or documentation purposes only.</li>
+        <li>I acknowledge that fees must be paid on time and agree to the refund and cancellation policies.</li>
+        <li>I understand that the registration submission will be reviewed by the centre, and I will receive an email notifying me whether the registration is accepted or rejected, with reasons if rejected.</li>
+      </ul>
+    </div>
+
+    <!-- Form with Agreement Checkbox -->
+    <form id="policy-form">
+      <label class="checkbox-inline">
+        <input type="checkbox" id="agree" required>
+        I have read and agree to the terms and policies above.
+      </label>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation" style="margin-top:20px;">
+        <button type="submit" class="btn">Submit</button>
+        <button type="button" class="btn" onclick="window.location.href='emercont.html'">Back</button>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('policy-form');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // prevent normal submission
+
+      const agreeCheckbox = document.getElementById('agree');
+      if (!agreeCheckbox.checked) {
+        alert('You must agree to the terms before submitting.');
+        return;
+      }
+
+      // Collect all data from localStorage
+      const formData = {
+        // Kiddo
+        kiddoName: localStorage.getItem("kiddoName"),
+        kiddoMyKid: localStorage.getItem("kiddoMyKid"),
+        kiddoAge: localStorage.getItem("kiddoAge"),
+        kiddoStreet: localStorage.getItem("kiddoStreet"),
+        kiddoPostcode: localStorage.getItem("kiddoPostcode"),
+        kiddoState: localStorage.getItem("kiddoState"),
+        kiddoHasAllergy: localStorage.getItem("kiddoHasAllergy"),
+        kiddoAllergyReason: localStorage.getItem("kiddoAllergyReason"),
+        kiddoImmunization: localStorage.getItem("kiddoImmunizationLink"),
+        kiddoParentEmail: localStorage.getItem("kiddoParentEmail"),
+
+        // Parent
+        parentName: localStorage.getItem("parentName"),
+        parentAge: localStorage.getItem("parentAge"),
+        parentIC: localStorage.getItem("parentIC"),
+        parentTel: localStorage.getItem("parentTel"),
+        parentStreet: localStorage.getItem("parentStreet"),
+        parentPostcode: localStorage.getItem("parentPostcode"),
+        parentState: localStorage.getItem("parentState"),
+        parentOccupation: localStorage.getItem("parentOccupation"),
+        parentSalary: localStorage.getItem("parentSalary"),
+        parentPayslip: localStorage.getItem("parentPayslipLink"),
+
+        // Mother
+        motherName: localStorage.getItem("motherName"),
+        motherAge: localStorage.getItem("motherAge"),
+        motherIC: localStorage.getItem("motherIC"),
+        motherTel: localStorage.getItem("motherTel"),
+        motherStreet: localStorage.getItem("motherStreet"),
+        motherPostcode: localStorage.getItem("motherPostcode"),
+        motherState: localStorage.getItem("motherState"),
+        motherOccupation: localStorage.getItem("motherOccupation"),
+        motherSalary: localStorage.getItem("motherSalary"),
+        motherPayslip: localStorage.getItem("motherPayslipLink"),
+
+        // Emergency
+        emerName: localStorage.getItem("emerName"),
+        emerTel: localStorage.getItem("emerTel"),
+        emerRelationship: localStorage.getItem("emerRelationship"),
+        emerPassport: localStorage.getItem("emerPassportLink"),
+        emerStreet: localStorage.getItem("emerStreet"),
+        emerPostcode: localStorage.getItem("emerPostcode"),
+        emerState: localStorage.getItem("emerState")
+      };
+
+      try {
+        const url = "https://script.google.com/macros/s/AKfycbwFVOKCU7YgGiPIN6iGm8FasaoNEyadYbmCk2RiIenfeeeIX9BGUFeXcrzlVQQEimv9/exec"; // Ganti dengan URL Apps Script Web App
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await res.json();
+
+        if (result.status === "success") {
+          alert("Registration submitted successfully!");
+          localStorage.clear();
+          window.location.href = "submit.html"; // redirect to success page
+        } else {
+          alert("Error: " + result.message);
+        }
+
+      } catch (err) {
+        alert("Failed to connect: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
